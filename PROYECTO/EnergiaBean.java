@@ -55,13 +55,6 @@ public class EnergiaBean {
 	public void setConstanteElasticidad(double constanteDeformacion) {
 		this.constanteElasticidad = constanteDeformacion;
 	}
-
-	@Override
-	public String toString() {
-		return "EnergiaBean [masa=" + masa + ", deformacion=" + deformacion + ", velocidad=" + velocidad + ", altura="
-				+ altura + ", constanteDeElasticidad=" + constanteElasticidad + "]";
-	}
-
 	
 
 }
