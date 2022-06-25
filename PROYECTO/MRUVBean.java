@@ -46,10 +46,5 @@ public class MRUVBean {
 		this.velocidadFinal = velocidadFinal;
 	}
 
-	@Override
-	public String toString() {
-		return "GenericoBean [velocidadInicial=" + velocidadInicial + ", velocidadFinal=" + velocidadFinal + ", tiempo="
-				+ tiempo + ", distancia=" + distancia + "]";
-	}
 
 }
