@@ -16,24 +16,22 @@ public class Principal {
 
     public static void main(String[] args) {
         String respuesta1, respuesta2;
-        // CREAMOS ESTE OBJETO PARA PODER ACCEDER AL METODO DE LOS MENUS DEBIDO A QUE NO ES ESTATICO
-
         do {
 
             do {
                 respuesta1 = JOptionPane.showInputDialog(null,
                         "SELECCIONE QUE TIPO DE FORMULAS USARÁ: " + "\n -MRUV" + "\n -ENERGIA", "MENU PRINCIPAL",
-                        JOptionPane.INFORMATION_MESSAGE); // (TIPO MENSAJE PLANO)
+                        JOptionPane.QUESTION_MESSAGE); // (TIPO MENSAJE INFORMATIVO)
             } while ((!respuesta1.equalsIgnoreCase("MRUV") && (!respuesta1.equalsIgnoreCase("ENERGIA"))));
 
             if (respuesta1.equalsIgnoreCase("MRUV")) {
-                principal.menu1();
+                principal.menu1(); //MENU DE MRUV
             } else if (respuesta1.equalsIgnoreCase("ENERGIA")) {
-                principal.menu2();
+                principal.menu2(); //MENU DE ENERGIA
             }
 
             do {
-                respuesta2 = JOptionPane.showInputDialog("DESEA VOLVER A MOSTRAR EL MENÚ ");
+                respuesta2 = JOptionPane.showInputDialog("DESEA VOLVER A MOSTRAR EL MENU PRINCIPAL (SI - NO)");
             } while ((!respuesta2.equalsIgnoreCase("SI") && (!respuesta2.equalsIgnoreCase("NO"))));
 
         } while (respuesta2.equalsIgnoreCase("SI"));
@@ -47,19 +45,16 @@ public class Principal {
     // MENU PARA EL MRUV
     public void menu1() {
         int opcion = 0, opcion2 = 0;
-        Icon imagenMruv = new ImageIcon(getClass().getResource("FORMULAS_MRUV 3.jpeg"));
+        opcion2 = menúImagenMRUV();
         do {
-            opcion2 = menúImagenMRUV();
-            do {
-                opcion = Integer.parseInt(JOptionPane.showInputDialog("SELECCIONE SU OPCION: " + "\n1. VOLVER A MOSTRAR LAS FORMULAS" + "\n2. CONTINUAR"));
-                if (opcion != 1 && opcion != 2) {
-                    JOptionPane.showMessageDialog(null, "ERROR DEBE SELECCIONAR UNA DE LAS DOS OPCIONES");
-                }
-                if (opcion == 1) {
-                    opcion2 = menúImagenMRUV();
-                }
-            } while (opcion != 2);
-        } while (opcion2 != 1 && opcion2 != 2 && opcion2 != 3 && opcion2 != 4);
+            opcion = Integer.parseInt(JOptionPane.showInputDialog("SELECCIONE SU OPCION: " + "\n1. VOLVER A MOSTRAR LAS FORMULAS" + "\n2. CONTINUAR"));
+            if (opcion != 1 && opcion != 2) {
+                JOptionPane.showMessageDialog(null, "ERROR DEBE SELECCIONAR UNA DE LAS DOS OPCIONES", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+            if (opcion == 1) {
+                opcion2 = menúImagenMRUV();
+            }
+        } while (opcion != 2);
 
         switch (opcion2) {
             case 1:
@@ -68,35 +63,40 @@ public class Principal {
                 objetoMRUV.setTiempo(Double.parseDouble(JOptionPane.showInputDialog("SELECCIONO LA OPCION 1 - VELOCIDAD FINAL SIN DISTANCIA" + "\n\nINGRESE EL TIEMPO: ")));
                 objetoMRUV.setVelocidadInicial(
                         Double.parseDouble(JOptionPane.showInputDialog("INGRESE LA VELOCIDAD INICIAL")));
+                objetoMRUV.setAceleracion(Double.parseDouble(JOptionPane.showInputDialog("INGRESE LA ACELERACION")));
 
                 JOptionPane.showMessageDialog(null, "LA VELOCIDAD FINAL ES: "
-                        + calcularVelocidadFinalSinDistancia(objetoMRUV.getTiempo(), objetoMRUV.getVelocidadInicial()));
+                        + calcularVelocidadFinalSinDistancia(objetoMRUV.getTiempo(), objetoMRUV.getVelocidadInicial(), objetoMRUV.getAceleracion()));
                 break;
             case 2:
-                // CALCULAR LA DISTANCIA SIN VELOCIDAD INICIAL
-                objetoMRUV.setTiempo(Double.parseDouble(JOptionPane.showInputDialog("SELECCIONO LA OPCION 2 - DISTANCIA SIN VELOCIDAD INICIAL" + "\n\nINGRESE EL TIEMPO:")));
-                objetoMRUV.setVelocidadFinal(Double.parseDouble(JOptionPane.showInputDialog("INGRESE LA VELOCIDAD FINAL")));
+                // CALCULAR LA DISTANCIA SIN ACELERACION
+                objetoMRUV.setTiempo(Double.parseDouble(JOptionPane.showInputDialog("SELECCIONO LA OPCION 2 - DISTANCIA SIN ACELERACION" + "\n\nINGRESE EL TIEMPO:")));
+                objetoMRUV.setVelocidadFinal(Double.parseDouble(JOptionPane.showInputDialog("INGRESE LA VELOCIDAD FINAL:")));
+                objetoMRUV.setVelocidadInicial(Double.parseDouble(JOptionPane.showInputDialog("INGRESE LA VELOCIDAD INICIAL:")));
 
                 JOptionPane.showMessageDialog(null, "LA DISTANCIA ES: "
-                        + calcularDistanciaSinVelocidadInicial(objetoMRUV.getTiempo(), objetoMRUV.getVelocidadFinal()));
+                        + calcularDistanciaSinAceleracion(objetoMRUV.getVelocidadInicial(), objetoMRUV.getVelocidadFinal(), objetoMRUV.getTiempo()));
                 break;
             case 3:
-                // CALCULAR LA DISTANCIA SIN VELOCIDAD FINAL
-                objetoMRUV.setTiempo(Double.parseDouble(JOptionPane.showInputDialog("SELECCIONO LA OPCION 3 - DISTANCIA SIN VELOCIDAD FINAL" + "\n\nINGRESE EL TIEMPO: ")));
-                objetoMRUV.setVelocidadInicial(
-                        Double.parseDouble(JOptionPane.showInputDialog("INGRESE LA VELOCIDAD INICIAL")));
-
-                JOptionPane.showMessageDialog(null, "LA DISTANCIA ES: "
-                        + calcularDistanciaSinVelocidadFinal(objetoMRUV.getTiempo(), objetoMRUV.getVelocidadInicial()));
-                break;
-            default: //CASO 4
                 // CALCULO DE LA VELOCIDAD FINAL SIN TIEMPO
                 objetoMRUV.setDistancia(Double.parseDouble(JOptionPane.showInputDialog("INGRESE LA DISTANCIA")));
                 objetoMRUV.setVelocidadInicial(
                         Double.parseDouble(JOptionPane.showInputDialog("INGRESE LA VELOCIDAD INICIAL")));
+                objetoMRUV.setAceleracion(Double.parseDouble(JOptionPane.showInputDialog("INGRESE LA ACELERACION")));
 
                 JOptionPane.showMessageDialog(null, "LA VELOCIDAD FINAL ES: "
-                        + calcularVelocidadFinalSinTiempo(objetoMRUV.getDistancia(), objetoMRUV.getVelocidadInicial()));
+                        + calcularVelocidadFinalSinTiempo(objetoMRUV.getDistancia(), objetoMRUV.getVelocidadInicial(), objetoMRUV.getAceleracion()));
+
+                break;
+            default: //CASO 4
+                // CALCULAR LA DISTANCIA SIN VELOCIDAD FINAL
+                objetoMRUV.setTiempo(Double.parseDouble(JOptionPane.showInputDialog("SELECCIONO LA OPCION 3 - DISTANCIA SIN VELOCIDAD FINAL" + "\n\nINGRESE EL TIEMPO: ")));
+                objetoMRUV.setVelocidadInicial(
+                        Double.parseDouble(JOptionPane.showInputDialog("INGRESE LA VELOCIDAD INICIAL")));
+                objetoMRUV.setAceleracion(Double.parseDouble(JOptionPane.showInputDialog("INGRESE LA ACELERACION")));
+
+                JOptionPane.showMessageDialog(null, "LA DISTANCIA ES: "
+                        + calcularDistanciaSinVelocidadFinal(objetoMRUV.getTiempo(), objetoMRUV.getVelocidadInicial(), objetoMRUV.getAceleracion()));
 
         }
     }
@@ -104,23 +104,20 @@ public class Principal {
     // MENU PARA CALCULAR LA ENERGIA
     public void menu2() {
         int opcion, opcion2;
-        Icon imagenEnergia = new ImageIcon(getClass().getResource("FORMULAS_ENERGIA.png"));
+        opcion2 = menuImagenEnergia();
         do {
-            opcion2 = menuImageneEnergia();
-            do {
-                opcion = Integer.parseInt(JOptionPane.showInputDialog("SELECCIONE SU OPCION: " + "\n1. VOLVER A MOSTRAR LAS FORMULAS" + "\n2. CONTINUAR"));
-                if (opcion != 1 && opcion != 2) {
-                    JOptionPane.showMessageDialog(null, "ERROR DEBE SELECCIONAR UNA DE LAS DOS OPCIONES");
-                }
-                if (opcion == 1) {
-                    opcion2 = menuImageneEnergia();
-                }
-            } while (opcion != 2);
-        } while (opcion2 != 1 && opcion2 != 2 && opcion2 != 3 && opcion2 != 4);
+            opcion = Integer.parseInt(JOptionPane.showInputDialog("SELECCIONE SU OPCION: " + "\n1. VOLVER A MOSTRAR LAS FORMULAS" + "\n2. CONTINUAR"));
+            if (opcion != 1 && opcion != 2) {
+                JOptionPane.showMessageDialog(null, "ERROR DEBE SELECCIONAR UNA DE LAS DOS OPCIONES", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+            if (opcion == 1) {
+                opcion2 = menuImagenEnergia();
+            }
+        } while (opcion != 2);
 
         switch (opcion2) {
             case 1:
-                //ENERGIA ELASTICA
+                //ENERGIA POTENCIAL ELASTICA
                 objetoEnergia.setConstanteElasticidad(
                         Double.parseDouble(JOptionPane.showInputDialog("INGRESE EL VALOR DE LA CONSTANTE DE ELASTICIDAD")));
                 objetoEnergia.setDeformacion(
@@ -150,33 +147,31 @@ public class Principal {
     }
 
     //FORMULAS DE MRUV
-    // CALCULAR LA VELOCIDAD INICIAL SIN TIEMPO
-    public static double calcularVelocidadFinalSinTiempo(double distancia, double velocidadInicial) {
-        double velocidadFinal;
-        velocidadFinal = Math.sqrt(Math.pow(velocidadInicial, 2) + 2 * ACELERACION_GRAVEDAD * distancia);
-        return velocidadFinal;
-    }
-
     // CALCULAR LA VELOCIDAD FINAL SIN DISTANCIA
-    public static double calcularVelocidadFinalSinDistancia(double tiempo, double velocidadInicial) {
+    public static double calcularVelocidadFinalSinDistancia(double tiempo, double velocidadInicial, double aceleracion) {
         double velocidadFinal;
-        velocidadFinal = velocidadInicial + ACELERACION_GRAVEDAD * tiempo;
+        velocidadFinal = velocidadInicial + aceleracion * tiempo;
         return velocidadFinal;
     }
 
-    // NECESITAMOS EL TIEMPO Y LA VELOCIDAD INICIAL
-    public static double calcularDistanciaSinVelocidadFinal(double tiempo, double velocidadInicial) {
-        // double distancia;
+    public static double calcularDistanciaSinAceleracion(double velocidadInicial, double velocidadFinal, double tiempo) {
         double distancia;
-        distancia = velocidadInicial * tiempo - (ACELERACION_GRAVEDAD * Math.pow(tiempo, 2)) / 2;
+        distancia = ((velocidadFinal + velocidadInicial) / 2) * tiempo;
         return distancia;
     }
 
+    // CALCULAR LA VELOCIDAD FINAL SIN TIEMPO
+    public static double calcularVelocidadFinalSinTiempo(double distancia, double velocidadInicial, double aceleracion) {
+        double velocidadFinal;
+        velocidadFinal = Math.sqrt(Math.pow(velocidadInicial, 2) + 2 * aceleracion * distancia);
+        return velocidadFinal;
+    }
+
     // NECESITAMOS EL TIEMPO Y LA VELOCIDAD INICIAL
-    public static double calcularDistanciaSinVelocidadInicial(double tiempo, double velocidadFinal) {
+    public static double calcularDistanciaSinVelocidadFinal(double tiempo, double velocidadInicial, double aceleracion) {
         // double distancia;
         double distancia;
-        distancia = velocidadFinal * tiempo + (ACELERACION_GRAVEDAD * tiempo) / 2;
+        distancia = velocidadInicial * tiempo - (aceleracion * Math.pow(tiempo, 2)) / 2;
         return distancia;
     }
 
@@ -211,27 +206,27 @@ public class Principal {
     public static int menúImagenMRUV() {
         String MRUV[] = {
             "1. CALCULO VELOCIDAD FINAL SIN DISTANCIA",
-            "2. CALCULAR LA DISTANCIA SIN VELOCIDAD INICIAL",
-            "3. CALCULAR LA DISTANCIA SIN VELOCIDAD FINAL",
-            "4. CALCULAR LA SIN VELOCIDAD INICIAL"
+            "2. CALCULAR LA DISTANCIA SIN ACELERACION",
+            "3. CALCULAR LA VELOCIDAD FINAL SIN TIEMPO",
+            "4. CALCULAR LA DISTANCIA SIN VELOCIDAD FINAL"
         };
         String respuesta = (String) JOptionPane.showInputDialog(null, "Seleccione su opcion", "MRUV", JOptionPane.DEFAULT_OPTION, principal.icono("FORMULAS_MRUV 3.jpeg", 600, 500), MRUV, MRUV[0]);
         if (respuesta.equals("1. CALCULO VELOCIDAD FINAL SIN DISTANCIA")) {
             return 1;
         }
-        if (respuesta.equals("2. CALCULAR LA DISTANCIA SIN VELOCIDAD INICIAL")) {
+        if (respuesta.equals("2. CALCULAR LA DISTANCIA SIN ACELERACION")) {
             return 2;
         }
-        if (respuesta.equals("3. CALCULAR LA DISTANCIA SIN VELOCIDAD FINAL")) {
+        if (respuesta.equals("3. CALCULAR LA VELOCIDAD FINAL SIN TIEMPO")) {
             return 3;
         }
-        if (respuesta.equals("4. CALCULAR LA SIN VELOCIDAD INICIAL")) {
+        if (respuesta.equals("4. CALCULAR LA DISTANCIA SIN VELOCIDAD FINAL")) {
             return 4;
         }
         return 0;
     }
 
-    public static int menuImageneEnergia() {
+    public static int menuImagenEnergia() {
         String Energia[] = {
             "1. ENERGIA POTENCIAL ELASTICA",
             "2. ENERGIA CINETICA",
@@ -251,3 +246,4 @@ public class Principal {
     }
 
 }
+
